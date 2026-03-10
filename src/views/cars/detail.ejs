@@ -1,0 +1,28 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section">
+  <h1><%= car.year %> <%= car.make %> <%= car.model %></h1>
+
+  <p><strong>Category:</strong> <%= car.category_name %></p>
+  <p><strong>Price:</strong> $<%= Number(car.price).toLocaleString() %></p>
+  <p><strong>Description:</strong> <%= car.description %></p>
+</section>
+
+<section class="page-section">
+  <h2>Images</h2>
+
+  <% if (images.length === 0) { %>
+    <p>No images available.</p>
+  <% } else { %>
+    <ul class="car-list">
+      <% images.forEach(image => { %>
+        <li>
+          <p><strong>Alt Text:</strong> <%= image.alt_text %></p>
+          <p><strong>Image Path:</strong> <%= image.image_url %></p>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>

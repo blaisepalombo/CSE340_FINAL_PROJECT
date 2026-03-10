@@ -1,0 +1,26 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section">
+  <h1>Browse Vintage Cars</h1>
+
+  <% if (cars.length === 0) { %>
+    <p>No cars found.</p>
+  <% } else { %>
+    <ul class="car-list">
+      <% cars.forEach(car => { %>
+        <li>
+          <h2>
+            <a href="/cars/<%= car.car_id %>">
+              <%= car.year %> <%= car.make %> <%= car.model %>
+            </a>
+          </h2>
+          <p><strong>Category:</strong> <%= car.category_name %></p>
+          <p><strong>Price:</strong> $<%= Number(car.price).toLocaleString() %></p>
+          <p><%= car.description %></p>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>
