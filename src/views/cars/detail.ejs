@@ -14,14 +14,15 @@
   <% if (images.length === 0) { %>
     <p>No images available.</p>
   <% } else { %>
-    <ul class="car-list">
+    <div class="car-images">
       <% images.forEach(image => { %>
-        <li>
-          <p><strong>Alt Text:</strong> <%= image.alt_text %></p>
-          <p><strong>Image Path:</strong> <%= image.image_url %></p>
-        </li>
+        <img
+          src="<%= image.image_url %>"
+          alt="<%= image.alt_text %>"
+          class="car-image"
+        >
       <% }) %>
-    </ul>
+    </div>
   <% } %>
 </section>
 

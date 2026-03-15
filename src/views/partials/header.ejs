@@ -11,9 +11,18 @@
     <div class="container">
       <nav class="site-nav">
         <a class="logo" href="/">Vintage Car Hub</a>
+
         <div class="nav-links">
           <a href="/">Home</a>
           <a href="/cars">Cars</a>
+
+          <% if (loggedIn) { %>
+            <a href="/account">Account</a>
+            <a href="/logout">Logout</a>
+          <% } else { %>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+          <% } %>
         </div>
       </nav>
     </div>

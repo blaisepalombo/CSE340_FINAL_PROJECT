@@ -1,0 +1,13 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section">
+  <h1>My Account</h1>
+
+  <p><strong>Name:</strong> <%= account.first_name %> <%= account.last_name %></p>
+  <p><strong>Email:</strong> <%= account.email %></p>
+  <p><strong>Role:</strong> <%= account.role_name %></p>
+
+  <p>This is your account dashboard. More features will be added here soon.</p>
+</section>
+
+<%- include("../partials/footer") %>
