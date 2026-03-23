@@ -1,0 +1,44 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section form-section wide-form-section">
+  <h1>Start Restoration Project</h1>
+  <p>Choose a car and create a project that you can track through each stage.</p>
+
+  <% if (errors.length > 0) { %>
+    <div class="message error-message">
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="/projects" method="post" class="auth-form">
+    <label for="car_id">Car</label>
+    <select id="car_id" name="car_id" required>
+      <option value="">Select a car</option>
+      <% cars.forEach(car => { %>
+        <option value="<%= car.car_id %>" <%= Number(formData.car_id) === car.car_id ? 'selected' : '' %>>
+          <%= car.year %> <%= car.make %> <%= car.model %>
+        </option>
+      <% }) %>
+    </select>
+
+    <label for="title">Project Title</label>
+    <input type="text" id="title" name="title" value="<%= formData.title || '' %>" required>
+
+    <label for="description">Project Description</label>
+    <textarea id="description" name="description" rows="6" required><%= formData.description || '' %></textarea>
+
+    <label for="started_on">Started On</label>
+    <input type="date" id="started_on" name="started_on" value="<%= formData.started_on || '' %>">
+
+    <label for="target_completion">Target Completion</label>
+    <input type="date" id="target_completion" name="target_completion" value="<%= formData.target_completion || '' %>">
+
+    <button type="submit" class="button">Create Project</button>
+  </form>
+</section>
+
+<%- include("../partials/footer") %>

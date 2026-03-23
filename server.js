@@ -7,6 +7,7 @@ import pgSession from "connect-pg-simple";
 
 import carsRoutes from "./src/routes/carsRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js";
+import projectsRoutes from "./src/routes/projectsRoutes.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 import pool from "./src/db/database.js";
 import { setNavLocals } from "./src/middleware/authMiddleware.js";
@@ -53,6 +54,7 @@ app.get("/", (req, res) => {
 
 app.use("/", carsRoutes);
 app.use("/", authRoutes);
+app.use("/", projectsRoutes);
 
 app.use((req, res) => {
   res.status(404).render("404", {
@@ -66,4 +68,3 @@ app.listen(PORT, () => {
   console.log(`\nServer running`);
   console.log(`Local: http://localhost:${PORT}`);
 });
-

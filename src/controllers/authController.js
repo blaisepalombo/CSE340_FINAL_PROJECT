@@ -4,6 +4,7 @@ import {
   getUserByEmail,
   getUserById
 } from "../models/authModel.js";
+import { getAccountDashboardData } from "./projectsController.js";
 
 export function buildRegister(req, res) {
   res.render("auth/register", {
@@ -132,10 +133,13 @@ export function logoutUser(req, res, next) {
 export async function buildAccount(req, res, next) {
   try {
     const account = await getUserById(req.session.user.user_id);
+    const dashboard = await getAccountDashboardData(req.session.user.user_id);
 
     res.render("account/index", {
       title: "My Account",
-      account
+      account,
+      totalProjects: dashboard.totalProjects,
+      recentProjects: dashboard.projects.slice(0, 3)
     });
   } catch (error) {
     next(error);

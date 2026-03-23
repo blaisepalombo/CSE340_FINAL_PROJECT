@@ -1,13 +1,57 @@
 <%- include("../partials/header", { title: title }) %>
 
 <section class="page-section">
-  <h1>My Account</h1>
+  <div class="section-header">
+    <div>
+      <h1>My Account</h1>
+      <p>Welcome back, <%= account.first_name %>.</p>
+    </div>
+    <a class="button" href="/projects/new">Start New Project</a>
+  </div>
 
-  <p><strong>Name:</strong> <%= account.first_name %> <%= account.last_name %></p>
-  <p><strong>Email:</strong> <%= account.email %></p>
-  <p><strong>Role:</strong> <%= account.role_name %></p>
+  <div class="dashboard-grid">
+    <article class="dashboard-card">
+      <h2>Account Info</h2>
+      <p><strong>Name:</strong> <%= account.first_name %> <%= account.last_name %></p>
+      <p><strong>Email:</strong> <%= account.email %></p>
+      <p><strong>Role:</strong> <%= account.role_name %></p>
+    </article>
 
-  <p>This is your account dashboard. More features will be added here soon.</p>
+    <article class="dashboard-card">
+      <h2>Project Summary</h2>
+      <p><strong>Total Projects:</strong> <%= totalProjects %></p>
+      <p>Keep building and track each restoration stage from one place.</p>
+      <a class="text-link" href="/projects">View all projects</a>
+    </article>
+  </div>
 </section>
+
+<section class="page-section">
+  <h2>Recent Projects</h2>
+
+  <% if (!recentProjects || recentProjects.length === 0) { %>
+    <p>You have not created any restoration projects yet.</p>
+  <% } else { %>
+    <div class="project-grid">
+      <% recentProjects.forEach(project => { %>
+        <article class="project-card">
+          <p class="project-status project-status-<%= project.current_status.replace(/\s+/g, '-') %>"><%= project.current_status %></p>
+          <h3><%= project.title %></h3>
+          <p><strong>Car:</strong> <%= project.year %> <%= project.make %> <%= project.model %></p>
+          <p><%= project.description %></p>
+          <a class="text-link" href="/projects/<%= project.project_id %>/edit">Open project</a>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<% if (account.role_name === "admin" || account.role_name === "moderator") { %>
+  <section class="page-section">
+    <h2>Staff Tools</h2>
+    <p>You have access to manage project workflow updates.</p>
+    <a class="button" href="/projects/manage">Manage All Projects</a>
+  </section>
+<% } %>
 
 <%- include("../partials/footer") %>

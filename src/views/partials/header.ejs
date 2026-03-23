@@ -18,6 +18,10 @@
 
           <% if (loggedIn) { %>
             <a href="/account">Account</a>
+            <a href="/projects">My Projects</a>
+            <% if (user && (user.role_name === "admin" || user.role_name === "moderator")) { %>
+              <a href="/projects/manage">Manage Projects</a>
+            <% } %>
             <a href="/logout">Logout</a>
           <% } else { %>
             <a href="/login">Login</a>

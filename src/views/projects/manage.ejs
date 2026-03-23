@@ -1,0 +1,43 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section">
+  <h1>Manage Restoration Projects</h1>
+  <p>Admins and moderators can update project status and keep the workflow moving.</p>
+
+  <% if (projects.length === 0) { %>
+    <p>No projects have been submitted yet.</p>
+  <% } else { %>
+    <div class="project-grid">
+      <% projects.forEach(project => { %>
+        <article class="project-card">
+          <div class="project-card-top">
+            <div>
+              <p class="project-status project-status-<%= project.current_status.replace(/\s+/g, '-') %>"><%= project.current_status %></p>
+              <h2><%= project.title %></h2>
+            </div>
+          </div>
+
+          <p><strong>User:</strong> <%= project.first_name %> <%= project.last_name %> (<%= project.email %>)</p>
+          <p><strong>Car:</strong> <%= project.year %> <%= project.make %> <%= project.model %></p>
+          <p><%= project.description %></p>
+
+          <form action="/projects/<%= project.project_id %>/status" method="post" class="auth-form compact-form">
+            <label for="status_name_<%= project.project_id %>">Status</label>
+            <select id="status_name_<%= project.project_id %>" name="status_name" required>
+              <% statusOptions.forEach(status => { %>
+                <option value="<%= status %>" <%= project.current_status === status ? 'selected' : '' %>><%= status %></option>
+              <% }) %>
+            </select>
+
+            <label for="notes_<%= project.project_id %>">Notes</label>
+            <textarea id="notes_<%= project.project_id %>" name="notes" rows="3" placeholder="Optional note about this update"></textarea>
+
+            <button type="submit" class="button">Update Status</button>
+          </form>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>

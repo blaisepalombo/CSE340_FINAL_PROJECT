@@ -1,0 +1,42 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section">
+  <div class="section-header">
+    <div>
+      <h1>My Restoration Projects</h1>
+      <p>Track your builds and see where each project is in the workflow.</p>
+    </div>
+    <a class="button" href="/projects/new">Start New Project</a>
+  </div>
+
+  <% if (projects.length === 0) { %>
+    <p>You have not started any restoration projects yet.</p>
+  <% } else { %>
+    <div class="project-grid">
+      <% projects.forEach(project => { %>
+        <article class="project-card">
+          <div class="project-card-top">
+            <div>
+              <p class="project-status project-status-<%= project.current_status.replace(/\s+/g, '-') %>">
+                <%= project.current_status %>
+              </p>
+              <h2><%= project.title %></h2>
+            </div>
+            <a class="text-link" href="/projects/<%= project.project_id %>/edit">Edit</a>
+          </div>
+
+          <p><strong>Car:</strong> <%= project.year %> <%= project.make %> <%= project.model %></p>
+          <p><strong>Category:</strong> <%= project.category_name %></p>
+          <p><%= project.description %></p>
+
+          <div class="project-dates">
+            <p><strong>Started:</strong> <%= project.started_on ? new Date(project.started_on).toLocaleDateString() : "Not set" %></p>
+            <p><strong>Target:</strong> <%= project.target_completion ? new Date(project.target_completion).toLocaleDateString() : "Not set" %></p>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>

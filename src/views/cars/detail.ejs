@@ -6,6 +6,11 @@
   <p><strong>Category:</strong> <%= car.category_name %></p>
   <p><strong>Price:</strong> $<%= Number(car.price).toLocaleString() %></p>
   <p><strong>Description:</strong> <%= car.description %></p>
+  <% if (loggedIn) { %>
+    <a class="button" href="/projects/new?carId=<%= car.car_id %>">Start Restoration Project</a>
+  <% } else { %>
+    <p><a class="text-link" href="/login">Log in</a> to start a restoration project for this car.</p>
+  <% } %>
 </section>
 
 <section class="page-section">
