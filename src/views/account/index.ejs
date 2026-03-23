@@ -35,7 +35,9 @@
     <div class="project-grid">
       <% recentProjects.forEach(project => { %>
         <article class="project-card">
-          <p class="project-status project-status-<%= project.current_status.replace(/\s+/g, '-') %>"><%= project.current_status %></p>
+          <p class="project-status project-status-<%= project.current_status.replace(/[_\s]+/g, '-') %>">
+            <%= project.current_status.replace(/_/g, ' ') %>
+          </p>
           <h3><%= project.title %></h3>
           <p><strong>Car:</strong> <%= project.year %> <%= project.make %> <%= project.model %></p>
           <p><%= project.description %></p>

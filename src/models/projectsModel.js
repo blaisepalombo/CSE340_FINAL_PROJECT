@@ -14,9 +14,10 @@ export async function createProject({ userId, carId, title, description, started
         description,
         current_status,
         started_on,
-        target_completion
+        target_completion,
+        submitted_at
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, CURRENT_TIMESTAMP)
       RETURNING *
     `;
 
@@ -34,8 +35,8 @@ export async function createProject({ userId, carId, title, description, started
 
     await client.query(
       `
-        INSERT INTO project_status_history (project_id, status, notes, changed_by)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO project_status_history (project_id, status, notes, changed_by, changed_at)
+        VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
       `,
       [project.project_id, "submitted", "Project created by user.", userId]
     );
@@ -154,7 +155,7 @@ export async function deleteProject(projectId, userId) {
   return result.rows[0];
 }
 
-export async function updateProjectStatus(projectId, statusName, notes, changedBy) {
+export async function updateProjectStatus(projectId, status, notes, changedBy) {
   const client = await pool.connect();
 
   try {
@@ -168,7 +169,7 @@ export async function updateProjectStatus(projectId, statusName, notes, changedB
         WHERE project_id = $2
         RETURNING *
       `,
-      [statusName, projectId]
+      [status, projectId]
     );
 
     const project = projectResult.rows[0];
@@ -179,10 +180,10 @@ export async function updateProjectStatus(projectId, statusName, notes, changedB
 
     await client.query(
       `
-        INSERT INTO project_status_history (project_id, status, notes, changed_by)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO project_status_history (project_id, status, notes, changed_by, changed_at)
+        VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
       `,
-      [projectId, statusName, notes || null, changedBy]
+      [projectId, status, notes || null, changedBy]
     );
 
     await client.query("COMMIT");

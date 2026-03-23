@@ -25,6 +25,7 @@ router.get(
   checkRole("admin", "moderator"),
   buildManageProjectsPage
 );
+
 router.post(
   "/projects/:projectId/status",
   checkRole("admin", "moderator"),

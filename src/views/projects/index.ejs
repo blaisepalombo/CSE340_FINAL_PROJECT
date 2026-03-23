@@ -17,8 +17,8 @@
         <article class="project-card">
           <div class="project-card-top">
             <div>
-              <p class="project-status project-status-<%= project.current_status.replace(/\s+/g, '-') %>">
-                <%= project.current_status %>
+              <p class="project-status project-status-<%= project.current_status.replace(/[_\s]+/g, '-') %>">
+                <%= project.current_status.replace(/_/g, ' ') %>
               </p>
               <h2><%= project.title %></h2>
             </div>

@@ -11,7 +11,7 @@ import {
   updateProjectStatus
 } from "../models/projectsModel.js";
 
-const allowedStatuses = ["submitted", "approved", "in progress", "completed"];
+const allowedStatuses = ["submitted", "approved", "in_progress", "completed", "rejected"];
 
 function normalizeProjectForm(body = {}) {
   return {
@@ -238,16 +238,16 @@ export async function buildManageProjectsPage(req, res, next) {
 export async function updateProjectStatusSubmission(req, res, next) {
   try {
     const projectId = Number(req.params.projectId);
-    const status_name = req.body.status_name?.trim().toLowerCase() || "";
+    const status = req.body.status?.trim() || "";
     const notes = req.body.notes?.trim() || "";
 
-    if (!allowedStatuses.includes(status_name)) {
+    if (!allowedStatuses.includes(status)) {
       return res.status(400).send("Invalid project status.");
     }
 
     await updateProjectStatus(
       projectId,
-      status_name,
+      status,
       notes,
       req.session.user.user_id
     );

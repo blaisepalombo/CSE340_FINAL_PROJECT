@@ -5,7 +5,7 @@
     <div>
       <h1>Edit Restoration Project</h1>
       <p><strong>Linked Car:</strong> <%= project.year %> <%= project.make %> <%= project.model %></p>
-      <p><strong>Current Status:</strong> <span class="project-status project-status-<%= project.current_status.replace(/\s+/g, '-') %>"><%= project.current_status %></span></p>
+      <p><strong>Current Status:</strong> <span class="project-status project-status-<%= project.current_status.replace(/[_\s]+/g, '-') %>"><%= project.current_status.replace(/_/g, ' ') %></span></p>
     </div>
 
     <form action="/projects/<%= project.project_id %>/delete" method="post" onsubmit="return confirm('Delete this project?');">
@@ -49,8 +49,8 @@
     <div class="history-list">
       <% history.forEach(item => { %>
         <article class="history-item">
-          <p><strong>Status:</strong> <%= item.status %></p>
-          <p><strong>Updated:</strong> <%= new Date(item.created_at).toLocaleString() %></p>
+          <p><strong>Status:</strong> <%= (item.status || item.status_name || "").replace(/_/g, ' ') %></p>
+          <p><strong>Updated:</strong> <%= new Date(item.changed_at || item.created_at).toLocaleString() %></p>
           <p><strong>By:</strong> <%= item.first_name ? `${item.first_name} ${item.last_name}` : "System" %></p>
           <p><strong>Notes:</strong> <%= item.notes || "No notes added." %></p>
         </article>
