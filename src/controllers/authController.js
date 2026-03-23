@@ -133,6 +133,14 @@ export function logoutUser(req, res, next) {
 export async function buildAccount(req, res, next) {
   try {
     const account = await getUserById(req.session.user.user_id);
+
+    if (!account) {
+      req.session.destroy(() => {
+        return res.redirect("/login");
+      });
+      return;
+    }
+
     const dashboard = await getAccountDashboardData(req.session.user.user_id);
 
     res.render("account/index", {
