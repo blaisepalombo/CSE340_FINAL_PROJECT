@@ -54,8 +54,8 @@
         <p>Refine the collection using search, category, availability, and sort options.</p>
 
         <form action="/cars" method="get" class="filter-form">
-          <div>
-            <label for="search">Search</label>
+          <div class="filter-section">
+            <label class="filter-label" for="search">Search</label>
             <input
               id="search"
               name="search"
@@ -65,67 +65,70 @@
             >
           </div>
 
-          <div class="filter-group">
-            <div class="filter-group-title">Categories</div>
-            <% categories.forEach(category => { %>
-              <label class="filter-option">
+          <details class="filter-section filter-dropdown" open>
+            <summary class="filter-dropdown-toggle">Categories</summary>
+            <div class="filter-grid">
+              <% categories.forEach((category) => { %>
+                <label class="filter-choice">
+                  <input
+                    type="checkbox"
+                    name="category[]"
+                    value="<%= category.category_id %>"
+                    <%= filterValues.category.includes(String(category.category_id)) ? "checked" : "" %>
+                  >
+                  <span><%= category.category_name %></span>
+                </label>
+              <% }) %>
+            </div>
+          </details>
+
+          <details class="filter-section filter-dropdown" open>
+            <summary class="filter-dropdown-toggle">Availability</summary>
+            <div class="filter-grid">
+              <label class="filter-choice">
                 <input
                   type="checkbox"
-                  name="category"
-                  value="<%= category.category_id %>"
-                  <%= filterValues.category.includes(String(category.category_id)) ? "checked" : "" %>
+                  name="availability[]"
+                  value="available"
+                  <%= filterValues.availability.includes("available") ? "checked" : "" %>
                 >
-                <span><%= category.category_name %></span>
+                <span>Available</span>
               </label>
-            <% }) %>
-          </div>
 
-          <div class="filter-group">
-            <div class="filter-group-title">Availability</div>
+              <label class="filter-choice">
+                <input
+                  type="checkbox"
+                  name="availability[]"
+                  value="reserved"
+                  <%= filterValues.availability.includes("reserved") ? "checked" : "" %>
+                >
+                <span>Reserved</span>
+              </label>
 
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="availability"
-                value="available"
-                <%= filterValues.availability.includes("available") ? "checked" : "" %>
-              >
-              <span>Available</span>
-            </label>
+              <label class="filter-choice">
+                <input
+                  type="checkbox"
+                  name="availability[]"
+                  value="sold"
+                  <%= filterValues.availability.includes("sold") ? "checked" : "" %>
+                >
+                <span>Sold</span>
+              </label>
 
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="availability"
-                value="reserved"
-                <%= filterValues.availability.includes("reserved") ? "checked" : "" %>
-              >
-              <span>Reserved</span>
-            </label>
+              <label class="filter-choice">
+                <input
+                  type="checkbox"
+                  name="availability[]"
+                  value="restoration"
+                  <%= filterValues.availability.includes("restoration") ? "checked" : "" %>
+                >
+                <span>Restoration</span>
+              </label>
+            </div>
+          </details>
 
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="availability"
-                value="sold"
-                <%= filterValues.availability.includes("sold") ? "checked" : "" %>
-              >
-              <span>Sold</span>
-            </label>
-
-            <label class="filter-option">
-              <input
-                type="checkbox"
-                name="availability"
-                value="restoration"
-                <%= filterValues.availability.includes("restoration") ? "checked" : "" %>
-              >
-              <span>Restoration</span>
-            </label>
-          </div>
-
-          <div>
-            <label for="sort">Sort</label>
+          <div class="filter-section">
+            <label class="filter-label" for="sort">Sort</label>
             <select id="sort" name="sort">
               <option value="year_desc" <%= filterValues.sort === "year_desc" ? "selected" : "" %>>Newest year first</option>
               <option value="year_asc" <%= filterValues.sort === "year_asc" ? "selected" : "" %>>Oldest year first</option>

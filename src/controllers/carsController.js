@@ -73,19 +73,33 @@ function validateCarForm(formData) {
 }
 
 function toArray(value) {
-  if (!value) return [];
-  return Array.isArray(value) ? value : [value];
+  if (value === undefined || value === null || value === "") return [];
+
+  if (Array.isArray(value)) {
+    return value
+      .flatMap((item) => String(item).split(","))
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return String(value)
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 export async function buildCarsPage(req, res, next) {
   try {
     const categories = await getAllCategories();
 
+    const rawCategory = req.query.category ?? req.query["category[]"];
+    const rawAvailability = req.query.availability ?? req.query["availability[]"];
+
     const filterValues = {
-      category: toArray(req.query.category),
-      availability: toArray(req.query.availability),
-      search: req.query.search || "",
-      sort: req.query.sort || "year_desc"
+      category: toArray(rawCategory),
+      availability: toArray(rawAvailability),
+      search: (req.query.search || "").trim(),
+      sort: (req.query.sort || "year_desc").trim()
     };
 
     const filters = {
@@ -93,8 +107,8 @@ export async function buildCarsPage(req, res, next) {
         .map((value) => Number(value))
         .filter((value) => !Number.isNaN(value)),
       availabilityStatuses: filterValues.availability.filter(Boolean),
-      search: filterValues.search.trim(),
-      sort: filterValues.sort.trim()
+      search: filterValues.search,
+      sort: filterValues.sort
     };
 
     const cars = await getAllCars(filters);

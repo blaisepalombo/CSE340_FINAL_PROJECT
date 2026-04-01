@@ -6,23 +6,26 @@ export async function getAllCars(filters = {}) {
   let orderBy = "c.year DESC, c.make ASC, c.model ASC";
 
   if (filters.categoryIds && filters.categoryIds.length > 0) {
-    values.push(filters.categoryIds);
-    conditions.push(`c.category_id = ANY($${values.length}::int[])`);
+    const placeholders = filters.categoryIds.map((_, index) => `$${values.length + index + 1}`);
+    conditions.push(`c.category_id IN (${placeholders.join(", ")})`);
+    values.push(...filters.categoryIds);
   }
 
   if (filters.availabilityStatuses && filters.availabilityStatuses.length > 0) {
-    values.push(filters.availabilityStatuses);
-    conditions.push(`c.availability_status = ANY($${values.length}::text[])`);
+    const placeholders = filters.availabilityStatuses.map((_, index) => `$${values.length + index + 1}`);
+    conditions.push(`c.availability_status IN (${placeholders.join(", ")})`);
+    values.push(...filters.availabilityStatuses);
   }
 
   if (filters.search) {
+    const searchPlaceholder = `$${values.length + 1}`;
     values.push(`%${filters.search}%`);
     conditions.push(`(
-      c.title ILIKE $${values.length}
-      OR c.make ILIKE $${values.length}
-      OR c.model ILIKE $${values.length}
-      OR c.description ILIKE $${values.length}
-      OR cat.category_name ILIKE $${values.length}
+      c.title ILIKE ${searchPlaceholder}
+      OR c.make ILIKE ${searchPlaceholder}
+      OR c.model ILIKE ${searchPlaceholder}
+      OR c.description ILIKE ${searchPlaceholder}
+      OR cat.category_name ILIKE ${searchPlaceholder}
     )`);
   }
 
@@ -255,19 +258,14 @@ export async function updateCar(
       ORDER BY is_primary DESC, image_id ASC
       LIMIT 1
     `;
-    const existingPrimaryImageResult = await client.query(
-      existingPrimaryImageSql,
-      [carId]
-    );
+    const existingPrimaryImageResult = await client.query(existingPrimaryImageSql, [carId]);
     const existingPrimaryImage = existingPrimaryImageResult.rows[0];
 
     if (imageUrl) {
       if (existingPrimaryImage) {
         const updateImageSql = `
           UPDATE car_images
-          SET image_url = $1,
-              alt_text = $2,
-              is_primary = true
+          SET image_url = $1, alt_text = $2, is_primary = true
           WHERE image_id = $3
         `;
         await client.query(updateImageSql, [
