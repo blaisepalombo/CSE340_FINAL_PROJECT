@@ -9,13 +9,15 @@ VALUES
 ON CONFLICT DO NOTHING;
 
 -- =========================
--- USERS (password = password123)
+-- USERS
+-- Password for all seeded users: P@$$w0rd!
+-- bcrypt hash for P@$$w0rd!
 -- =========================
 INSERT INTO users (first_name, last_name, email, password_hash, role_id)
 VALUES
-  ('Admin', 'User', 'admin@test.com', '$2a$10$7a0jQ0d8t8dV7L8x5k6c5eGqv6y5yH9lFzj0wQ2z7b2Q6e4k6yG5a', 1),
-  ('Mod', 'User', 'mod@test.com', '$2a$10$7a0jQ0d8t8dV7L8x5k6c5eGqv6y5yH9lFzj0wQ2z7b2Q6e4k6yG5a', 2),
-  ('Normal', 'User', 'user@test.com', '$2a$10$7a0jQ0d8t8dV7L8x5k6c5eGqv6y5yH9lFzj0wQ2z7b2Q6e4k6yG5a', 3)
+  ('Admin', 'User', 'admin@test.com', '$2b$10$OWjr4C4rgaeNq/LjmFzzZ.tojU3nfEWt60/ybVlmuZDAUn0uo1M9m', 1),
+  ('Mod', 'User', 'mod@test.com', '$2b$10$OWjr4C4rgaeNq/LjmFzzZ.tojU3nfEWt60/ybVlmuZDAUn0uo1M9m', 2),
+  ('Normal', 'User', 'user@test.com', '$2b$10$OWjr4C4rgaeNq/LjmFzzZ.tojU3nfEWt60/ybVlmuZDAUn0uo1M9m', 3)
 ON CONFLICT DO NOTHING;
 
 -- =========================
@@ -29,7 +31,7 @@ VALUES
 ON CONFLICT DO NOTHING;
 
 -- =========================
--- CARS (YOUR 3 ORIGINAL STYLE)
+-- CARS
 -- =========================
 INSERT INTO cars (
   category_id,
@@ -49,7 +51,7 @@ VALUES
 ON CONFLICT DO NOTHING;
 
 -- =========================
--- CAR IMAGES (MATCH YOUR FILES)
+-- CAR IMAGES
 -- =========================
 INSERT INTO car_images (car_id, image_url, alt_text, is_primary)
 VALUES
@@ -64,9 +66,9 @@ ON CONFLICT DO NOTHING;
 INSERT INTO restoration_projects
 (user_id, car_id, title, description, current_status, started_on, submitted_at, updated_at, created_at)
 VALUES
-  (3, 1, 'Challenger Engine Rebuild', 'Full engine teardown and rebuild.', 'submitted', '2026-01-01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (3, 2, 'Corvette Interior Restore', 'Replacing seats and interior trim.', 'approved', '2026-02-01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (3, 3, 'Mustang Performance Upgrade', 'Upgrading engine and suspension.', 'in_progress', '2026-02-15', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  (3, 1, 'Challenger Engine Rebuild', 'Full engine teardown and rebuild with new gaskets, hoses, and tuning.', 'submitted', '2026-01-01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (3, 2, 'Corvette Interior Restore', 'Replacing seats, carpet, trim, and refreshing the interior panels.', 'approved', '2026-02-01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (3, 3, 'Mustang Performance Upgrade', 'Upgrading the engine, suspension, and brakes for better drivability.', 'in_progress', '2026-02-15', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ON CONFLICT DO NOTHING;
 
 -- =========================
@@ -83,4 +85,14 @@ VALUES
   (3, 'submitted', 'Initial submission.', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
   (3, 'approved', 'Approved for work.', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
   (3, 'in_progress', 'Work has started.', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT DO NOTHING;
+
+-- =========================
+-- COMMENTS
+-- =========================
+INSERT INTO comments (user_id, car_id, comment_text, created_at, updated_at)
+VALUES
+  (3, 1, 'Love the aggressive styling on this Challenger. Perfect starting point for a restoration.', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (3, 2, 'The Stingray interior on this one would be a really fun project to bring back to life.', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (2, 3, 'Solid foundation here. This Mustang could become an incredible performance build.', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ON CONFLICT DO NOTHING;

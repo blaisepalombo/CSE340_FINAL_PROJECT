@@ -3,6 +3,7 @@ import {
   getCarById,
   getCarImagesByCarId
 } from "../models/carsModel.js";
+import { getCommentsByCarId } from "../models/commentsModel.js";
 
 export async function buildCarsPage(req, res, next) {
   try {
@@ -23,15 +24,22 @@ export async function buildCarDetailPage(req, res, next) {
     const car = await getCarById(carId);
 
     if (!car) {
-      return res.status(404).send("Car not found.");
+      return res.status(404).render("404", {
+        title: "Car Not Found"
+      });
     }
 
     const images = await getCarImagesByCarId(carId);
+    const comments = await getCommentsByCarId(carId);
 
     res.render("cars/detail", {
       title: `${car.year} ${car.make} ${car.model}`,
       car,
-      images
+      images,
+      comments,
+      errors: [],
+      commentFormData: { comment_text: "" },
+      editingCommentId: null
     });
   } catch (error) {
     next(error);

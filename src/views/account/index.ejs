@@ -51,8 +51,11 @@
 <% if (account.role_name === "admin" || account.role_name === "moderator") { %>
   <section class="page-section">
     <h2>Staff Tools</h2>
-    <p>You have access to manage project workflow updates.</p>
-    <a class="button" href="/projects/manage">Manage All Projects</a>
+    <p>You have access to moderation and workflow management tools.</p>
+    <div class="inline-actions">
+      <a class="button" href="/projects/manage">Manage Projects</a>
+      <a class="button button-secondary" href="/comments/manage">Manage Comments</a>
+    </div>
   </section>
 <% } %>
 
