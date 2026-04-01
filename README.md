@@ -4,7 +4,14 @@
 
 This project is a full-stack web application that allows users to browse vintage cars, create restoration projects, and interact through comments. The system supports multiple user roles with different permissions and includes administrative tools for managing content.
 
-The application is built using Node.js, Express, EJS, and PostgreSQL following an MVC architecture and is deployed on Render.
+The application is built using **Node.js, Express, EJS, and PostgreSQL**, following an MVC architecture. It is deployed on Render.
+
+---
+
+## Live Demo
+
+**Render Deployment:**
+https://cse340-final-project-2wjq.onrender.com/
 
 ---
 
@@ -12,9 +19,18 @@ The application is built using Node.js, Express, EJS, and PostgreSQL following a
 
 ### Public Features
 
-* Browse vintage cars by category
+* Browse vintage cars with a modern card-based UI
+* Filter cars by:
+
+  * Category (multi-select)
+  * Availability (multi-select)
+  * Search (make, model, description)
+  * Sorting (price, year, make)
+* Expandable dropdown filter panels with interactive button-style selections
 * View detailed car pages with images and descriptions
 * View user comments on each car
+
+---
 
 ### User Features (Logged In)
 
@@ -25,17 +41,21 @@ The application is built using Node.js, Express, EJS, and PostgreSQL following a
 * Edit and delete their own projects
 * Add, edit, and delete their own comments
 
+---
+
 ### Moderator Features
 
-* Manage all comments (delete inappropriate content)
+* Manage all comments (remove inappropriate content)
 * Manage project workflow and update project statuses
+
+---
 
 ### Admin Features
 
-* Full access to all features
+* Full system access
 * Add, edit, and delete cars
 * Add, edit, and delete categories
-* Access all moderation tools
+* Manage all users, projects, and comments
 
 ---
 
@@ -51,11 +71,13 @@ The application is built using Node.js, Express, EJS, and PostgreSQL following a
 
 ## Test Accounts
 
-Use the following accounts to test the application:
+Use the following accounts to test functionality:
 
 * [admin@test.com](mailto:admin@test.com)
 * [mod@test.com](mailto:mod@test.com)
 * [user@test.com](mailto:user@test.com)
+
+*(Use the same password configured in your seed data)*
 
 ---
 
@@ -70,9 +92,19 @@ Use the following accounts to test the application:
 
 ---
 
+## Architecture
+
+The application follows an **MVC (Model-View-Controller)** pattern:
+
+* **Models** → Database queries and data logic
+* **Views** → EJS templates (UI rendering)
+* **Controllers** → Request handling and business logic
+
+---
+
 ## Database Design
 
-The database includes the following tables:
+The database includes:
 
 * users
 * roles
@@ -94,20 +126,20 @@ The database includes the following tables:
 
 ## Installation / Setup
 
-1. Clone the repository:
+### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
-cd <your-project-folder>
+git clone https://github.com/blaisepalombo/CSE340_FINAL_PROJECT.git
+cd CSE340_FINAL_PROJECT
 ```
 
-2. Install dependencies:
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-3. Create a `.env` file:
+### 3. Create a `.env` file
 
 ```env
 DB_URL=your_database_url
@@ -115,13 +147,13 @@ SESSION_SECRET=your_secret
 DB_SSL=true
 ```
 
-4. Run the server:
+### 4. Run the server
 
 ```bash
 npm start
 ```
 
-5. Open in browser:
+### 5. Open in browser
 
 ```
 http://localhost:3000
@@ -131,30 +163,42 @@ http://localhost:3000
 
 ## Deployment
 
-The application is deployed on Render using a PostgreSQL database with SSL enabled.
+The application is deployed using **Render** with a hosted PostgreSQL database.
+
+To deploy your own version:
+
+1. Create a PostgreSQL database on Render
+2. Add environment variables:
+
+   * DB_URL
+   * SESSION_SECRET
+   * DB_SSL=true
+3. Connect your GitHub repository
+4. Deploy as a Web Service
 
 ---
 
 ## Known Limitations
 
-* Image uploads use URLs instead of file uploads
-* Limited validation on some forms
+* Image uploads currently use URLs instead of file uploads
 * No pagination for large datasets
-* Category deletion may leave cars uncategorized
+* Limited validation on some forms
+* Deleting categories may leave cars uncategorized
 
 ---
 
 ## Future Improvements
 
-* Image upload system
-* Search and filtering
-* Improved UI/UX
-* Notifications for project updates
+* File-based image upload system
 * Pagination for large datasets
+* Advanced search (price range, year range)
+* Notifications for project updates
+* UI polish and accessibility improvements
+* API layer for potential frontend framework integration
 
 ---
 
 ## Author
 
-Blaise Palombo
-BYU–Idaho Web Design & Development
+**Blaise Palombo**
+BYU–Idaho — Web Design & Development
