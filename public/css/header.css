@@ -46,21 +46,27 @@
 
 .nav-links > a,
 .nav-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0.65rem 0.95rem;
   color: var(--charcoal-blue);
   background: #e7eef2;
   border: 1px solid rgba(88, 111, 124, 0.14);
-  padding: 0.65rem 0.9rem;
   border-radius: 999px;
   font-size: 0.95rem;
   font-family: "Barlow", Arial, sans-serif;
   font-weight: 600;
+  line-height: 1;
   cursor: pointer;
   transition:
     background-color var(--transition),
     border-color var(--transition),
     color var(--transition),
     transform var(--transition);
-  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .nav-links > a:hover,
@@ -69,7 +75,6 @@
   border-color: rgba(88, 111, 124, 0.2);
   color: var(--charcoal-blue);
   transform: translateY(-1px);
-  box-shadow: none;
 }
 
 .nav-links-admin {
@@ -83,8 +88,6 @@
 }
 
 .nav-dropdown-toggle {
-  display: inline-flex;
-  align-items: center;
   gap: 0.4rem;
   position: relative;
   z-index: 2;
