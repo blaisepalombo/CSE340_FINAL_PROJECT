@@ -1,5 +1,5 @@
 .container {
-  width: min(92%, 1140px);
+  width: min(96%, 1380px);
   margin: 0 auto;
 }
 
@@ -13,8 +13,19 @@
   box-shadow: var(--shadow-sm);
 }
 
+.page-shell,
+.car-browser-shell,
+.account-shell,
+.home-shell {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin-bottom: 1.4rem;
+}
+
 .wide-form-section {
-  max-width: 860px;
+  max-width: 980px;
 }
 
 .section-header,
@@ -28,8 +39,28 @@
 .dashboard-grid,
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.dashboard-grid > *,
+.project-grid > * {
+  grid-column: span 6;
+}
+
+@media (min-width: 900px) {
+  .dashboard-grid.account-grid > *:first-child {
+    grid-column: span 4;
+  }
+
+  .dashboard-grid.account-grid > *:last-child {
+    grid-column: span 8;
+  }
+
+  .project-grid.projects-grid > * {
+    grid-column: span 6;
+  }
 }
 
 .inline-actions {

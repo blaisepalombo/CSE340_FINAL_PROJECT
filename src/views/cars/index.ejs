@@ -1,42 +1,151 @@
 <%- include("../partials/header", { title: title }) %>
 
-<section class="page-section">
-  <div class="section-header">
+<section class="car-browser-shell">
+  <div class="section-header" style="margin-bottom: 1rem;">
     <div>
       <h1>Browse Vintage Cars</h1>
       <p>Explore featured classics, restoration candidates, and iconic vintage builds.</p>
     </div>
   </div>
 
-  <% if (!cars || cars.length === 0) { %>
-    <p>No cars found.</p>
-  <% } else { %>
-    <div class="project-grid car-grid">
-      <% cars.forEach(car => { %>
-        <a class="car-card-link" href="/cars/<%= car.car_id %>">
-          <article class="project-card car-card">
-            <% if (car.primary_image_url) { %>
-              <img
-                src="<%= car.primary_image_url %>"
-                alt="<%= car.primary_image_alt_text || `${car.year} ${car.make} ${car.model}` %>"
-                class="car-thumbnail"
-              >
-            <% } %>
+  <div class="car-browser-layout">
+    <div class="car-main-column">
+      <% if (!cars || cars.length === 0) { %>
+        <div class="page-section">
+          <p>No cars found for the current filters.</p>
+        </div>
+      <% } else { %>
+        <div class="car-grid">
+          <% cars.forEach((car) => { %>
+            <a class="car-card-link" href="/cars/<%= car.car_id %>">
+              <article class="project-card car-card">
+                <% if (car.primary_image_url) { %>
+                  <img
+                    src="<%= car.primary_image_url %>"
+                    alt="<%= car.primary_image_alt_text || `${car.year} ${car.make} ${car.model}` %>"
+                    class="car-thumbnail"
+                  >
+                <% } %>
 
-            <p class="project-status">
-              <%= car.availability_status %>
-            </p>
+                <p class="project-status">
+                  <%= car.availability_status %>
+                </p>
 
-            <h2><%= car.year %> <%= car.make %> <%= car.model %></h2>
+                <h2><%= car.year %> <%= car.make %> <%= car.model %></h2>
 
-            <p><strong>Category:</strong> <%= car.category_name || "Uncategorized" %></p>
-            <p><strong>Price:</strong> $<%= Number(car.price).toLocaleString() %></p>
-            <p><%= car.description %></p>
-          </article>
-        </a>
-      <% }) %>
+                <div class="car-meta-row">
+                  <span><strong>Category:</strong> <%= car.category_name || "Uncategorized" %></span>
+                  <span><strong>Price:</strong> $<%= Number(car.price).toLocaleString() %></span>
+                </div>
+
+                <p class="car-description"><%= car.description %></p>
+
+                <div class="car-card-footer">View details</div>
+              </article>
+            </a>
+          <% }) %>
+        </div>
+      <% } %>
     </div>
-  <% } %>
+
+    <aside class="car-sidebar-column">
+      <div class="filter-panel">
+        <h2>Filter Cars</h2>
+        <p>Refine the collection using search, category, availability, and sort options.</p>
+
+        <form action="/cars" method="get" class="filter-form">
+          <div>
+            <label for="search">Search</label>
+            <input
+              id="search"
+              name="search"
+              type="text"
+              placeholder="Search make, model, or description"
+              value="<%= filterValues.search %>"
+            >
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-title">Categories</div>
+            <% categories.forEach(category => { %>
+              <label class="filter-option">
+                <input
+                  type="checkbox"
+                  name="category"
+                  value="<%= category.category_id %>"
+                  <%= filterValues.category.includes(String(category.category_id)) ? "checked" : "" %>
+                >
+                <span><%= category.category_name %></span>
+              </label>
+            <% }) %>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-title">Availability</div>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="availability"
+                value="available"
+                <%= filterValues.availability.includes("available") ? "checked" : "" %>
+              >
+              <span>Available</span>
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="availability"
+                value="reserved"
+                <%= filterValues.availability.includes("reserved") ? "checked" : "" %>
+              >
+              <span>Reserved</span>
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="availability"
+                value="sold"
+                <%= filterValues.availability.includes("sold") ? "checked" : "" %>
+              >
+              <span>Sold</span>
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="availability"
+                value="restoration"
+                <%= filterValues.availability.includes("restoration") ? "checked" : "" %>
+              >
+              <span>Restoration</span>
+            </label>
+          </div>
+
+          <div>
+            <label for="sort">Sort</label>
+            <select id="sort" name="sort">
+              <option value="year_desc" <%= filterValues.sort === "year_desc" ? "selected" : "" %>>Newest year first</option>
+              <option value="year_asc" <%= filterValues.sort === "year_asc" ? "selected" : "" %>>Oldest year first</option>
+              <option value="price_asc" <%= filterValues.sort === "price_asc" ? "selected" : "" %>>Lowest price first</option>
+              <option value="price_desc" <%= filterValues.sort === "price_desc" ? "selected" : "" %>>Highest price first</option>
+              <option value="make_asc" <%= filterValues.sort === "make_asc" ? "selected" : "" %>>Make A–Z</option>
+            </select>
+          </div>
+
+          <div class="filter-actions">
+            <button type="submit" class="button">Apply Filters</button>
+            <a href="/cars" class="button button-secondary">Clear</a>
+          </div>
+        </form>
+
+        <h3 style="margin-top: 1.4rem;">Current results</h3>
+        <p><strong>Cars shown:</strong> <%= cars ? cars.length : 0 %></p>
+      </div>
+    </aside>
+  </div>
 </section>
 
 <%- include("../partials/footer") %>

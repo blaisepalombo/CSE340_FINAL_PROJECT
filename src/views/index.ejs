@@ -1,32 +1,78 @@
-<%- include("partials/header", { title: title }) %>
+<%- include("./partials/header", { title: title }) %>
 
-<section class="hero">
-  <h1>Vintage Car Showcase and Restoration Hub</h1>
-  <p>
-    Browse classic cars, explore detailed vehicle pages, and build restoration
-    projects with progress tracked through every stage.
-  </p>
-  <a class="button" href="/cars">Browse Cars</a>
+<section class="home-shell">
+  <div class="split-layout">
+    <div class="split-main">
+      <div class="home-main-stack">
+        <section class="home-main-panel">
+          <h1>Vintage Car Showcase and Restoration Hub</h1>
+          <p>
+            Discover timeless classics, explore detailed vehicle pages, and create restoration projects
+            that move through every stage from submission to completion.
+          </p>
+
+          <div class="inline-actions" style="margin-top: 1rem;">
+            <a class="button" href="/cars">Browse Cars</a>
+            <% if (loggedIn) { %>
+              <a class="button button-secondary" href="/projects/new">Start a Project</a>
+            <% } else { %>
+              <a class="button button-secondary" href="/register">Create Account</a>
+            <% } %>
+          </div>
+        </section>
+
+        <section class="home-feature-panel">
+          <h2>What You Can Do</h2>
+
+          <div class="home-callout-grid">
+            <div class="home-callout-card">
+              <h3>Browse the Collection</h3>
+              <p>Explore vintage vehicles by category, availability, and restoration potential.</p>
+            </div>
+
+            <div class="home-callout-card">
+              <h3>Track Restoration Projects</h3>
+              <p>Create your own projects and follow each stage from submitted to completed.</p>
+            </div>
+
+            <div class="home-callout-card">
+              <h3>Join the Conversation</h3>
+              <p>Leave comments on cars and interact with the growing restoration community.</p>
+            </div>
+
+            <div class="home-callout-card">
+              <h3>Manage the Hub</h3>
+              <p>Admins and moderators can manage content, workflow, and community tools.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <aside class="split-sidebar">
+      <div class="sidebar-panel">
+        <h2>Quick Access</h2>
+        <p>Jump into the parts of the site that matter most.</p>
+
+        <div class="inline-actions" style="margin-top: 1rem;">
+          <a class="button" href="/cars">View Cars</a>
+          <% if (loggedIn) { %>
+            <a class="button button-secondary" href="/account">My Account</a>
+          <% } else { %>
+            <a class="button button-secondary" href="/login">Login</a>
+          <% } %>
+        </div>
+
+        <h3 style="margin-top: 1.4rem;">Built With</h3>
+        <ul>
+          <li>Node.js + Express</li>
+          <li>EJS server-side rendering</li>
+          <li>PostgreSQL database</li>
+          <li>Role-based access control</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
 </section>
 
-<section class="page-section">
-  <h2>What This Site Does</h2>
-  <p>
-    This project lets visitors explore vintage cars by category and view detailed
-    information for each vehicle. Logged-in users will be able to create and manage
-    restoration projects, leave comments, and track project status over time.
-  </p>
-</section>
-
-<section class="page-section">
-  <h2>Planned Features</h2>
-  <ul>
-    <li>Browse vintage cars and categories</li>
-    <li>View detailed pages for each car</li>
-    <li>Create restoration projects tied to a car</li>
-    <li>Track project progress through multiple stages</li>
-    <li>Role-based dashboards for admins, moderators, and users</li>
-  </ul>
-</section>
-
-<%- include("partials/footer") %>
+<%- include("./partials/footer") %>

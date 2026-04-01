@@ -1,7 +1,7 @@
 <%- include("../partials/header", { title: title }) %>
 
-<section class="page-section">
-  <div class="section-header">
+<section class="account-shell">
+  <div class="section-header" style="margin-bottom: 1rem;">
     <div>
       <h1>My Account</h1>
       <p>Welcome back, <%= account.first_name %>.</p>
@@ -9,59 +9,81 @@
     <a class="button" href="/projects/new">Start New Project</a>
   </div>
 
-  <div class="dashboard-grid">
-    <article class="dashboard-card">
-      <h2>Account Info</h2>
-      <p><strong>Name:</strong> <%= account.first_name %> <%= account.last_name %></p>
-      <p><strong>Email:</strong> <%= account.email %></p>
-      <p><strong>Role:</strong> <%= account.role_name %></p>
-    </article>
+  <div class="split-layout">
+    <div class="split-main">
+      <div class="account-main-stack">
+        <div class="account-summary-grid">
+          <article class="dashboard-card">
+            <h2>Account Info</h2>
+            <p><strong>Name:</strong> <%= account.first_name %> <%= account.last_name %></p>
+            <p><strong>Email:</strong> <%= account.email %></p>
+            <p><strong>Role:</strong> <%= account.role_name %></p>
+          </article>
 
-    <article class="dashboard-card">
-      <h2>Project Summary</h2>
-      <p><strong>Total Projects:</strong> <%= totalProjects %></p>
-      <p>Keep building and track each restoration stage from one place.</p>
-      <a class="text-link" href="/projects">View all projects</a>
-    </article>
+          <article class="dashboard-card">
+            <h2>Project Summary</h2>
+            <p><strong>Total Projects:</strong> <%= totalProjects %></p>
+            <p>Keep building and track each restoration stage from one place.</p>
+            <a class="text-link" href="/projects">View all projects</a>
+          </article>
+        </div>
+
+        <div class="page-section">
+          <h2>Recent Projects</h2>
+
+          <% if (!recentProjects || recentProjects.length === 0) { %>
+            <p>You have not created any restoration projects yet.</p>
+          <% } else { %>
+            <div class="project-grid projects-grid">
+              <% recentProjects.forEach((project) => { %>
+                <article class="project-card">
+                  <p class="project-status project-status-<%= project.current_status.replace(/[_\s]+/g, '-') %>">
+                    <%= project.current_status.replace(/_/g, " ") %>
+                  </p>
+                  <h3><%= project.title %></h3>
+                  <p><strong>Car:</strong> <%= project.year %> <%= project.make %> <%= project.model %></p>
+                  <p><%= project.description %></p>
+                  <a class="text-link" href="/projects/<%= project.project_id %>/edit">Open project</a>
+                </article>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <aside class="split-sidebar">
+      <div class="sidebar-panel">
+        <h2>Account Tools</h2>
+        <p>Use this panel to jump into the main areas of your restoration hub.</p>
+
+        <div class="inline-actions" style="margin-top: 1rem;">
+          <a class="button" href="/projects">My Projects</a>
+          <a class="button button-secondary" href="/projects/new">New Project</a>
+        </div>
+
+        <% if (account.role_name === "admin" || account.role_name === "moderator") { %>
+          <h3 style="margin-top: 1.4rem;">Staff Tools</h3>
+          <div class="inline-actions" style="margin-top: 0.75rem;">
+            <a class="button" href="/projects/manage">Manage Projects</a>
+            <a class="button button-secondary" href="/comments/manage">Manage Comments</a>
+            <% if (account.role_name === "admin") { %>
+              <a class="button" href="/cars/manage">Manage Cars</a>
+              <a class="button button-secondary" href="/categories/manage">Manage Categories</a>
+              <a class="button" href="/users/manage">Manage Users</a>
+            <% } %>
+          </div>
+        <% } else { %>
+          <h3 style="margin-top: 1.4rem;">Quick Notes</h3>
+          <ul>
+            <li>Create projects tied to your favorite cars</li>
+            <li>Track each stage of restoration progress</li>
+            <li>Use comments to interact with the showcase</li>
+          </ul>
+        <% } %>
+      </div>
+    </aside>
   </div>
 </section>
-
-<section class="page-section">
-  <h2>Recent Projects</h2>
-
-  <% if (!recentProjects || recentProjects.length === 0) { %>
-    <p>You have not created any restoration projects yet.</p>
-  <% } else { %>
-    <div class="project-grid">
-      <% recentProjects.forEach(project => { %>
-        <article class="project-card">
-          <p class="project-status project-status-<%= project.current_status.replace(/[_\s]+/g, '-') %>">
-            <%= project.current_status.replace(/_/g, " ") %>
-          </p>
-          <h3><%= project.title %></h3>
-          <p><strong>Car:</strong> <%= project.year %> <%= project.make %> <%= project.model %></p>
-          <p><%= project.description %></p>
-          <a class="text-link" href="/projects/<%= project.project_id %>/edit">Open project</a>
-        </article>
-      <% }) %>
-    </div>
-  <% } %>
-</section>
-
-<% if (account.role_name === "admin" || account.role_name === "moderator") { %>
-  <section class="page-section">
-    <h2>Staff Tools</h2>
-    <p>You have access to moderation and workflow management tools.</p>
-    <div class="inline-actions">
-      <a class="button" href="/projects/manage">Manage Projects</a>
-      <a class="button button-secondary" href="/comments/manage">Manage Comments</a>
-      <% if (account.role_name === "admin") { %>
-        <a class="button" href="/cars/manage">Manage Cars</a>
-        <a class="button button-secondary" href="/categories/manage">Manage Categories</a>
-        <a class="button" href="/users/manage">Manage Users</a>
-      <% } %>
-    </div>
-  </section>
-<% } %>
 
 <%- include("../partials/footer") %>

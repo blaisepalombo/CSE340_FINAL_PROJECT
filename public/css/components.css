@@ -22,12 +22,12 @@
 
 .button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 24px rgba(16, 27, 34, 0.16);
-  filter: brightness(1.04);
+  box-shadow: 0 12px 20px rgba(16, 27, 34, 0.14);
+  filter: brightness(1.03);
 }
 
 .button-secondary {
-  background: linear-gradient(135deg, #77838c, #94a0a8);
+  background: linear-gradient(135deg, var(--charcoal-blue), var(--blue-slate));
 }
 
 .button-danger {
@@ -38,7 +38,12 @@
 .project-card,
 .history-item,
 .comment-card,
-.car-list li {
+.car-list li,
+.filter-panel,
+.sidebar-panel,
+.home-feature-panel,
+.home-main-panel,
+.account-main-panel {
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -55,12 +60,197 @@
 .comment-card:hover,
 .history-item:hover,
 .car-list li:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--border-strong);
 }
 
+/* ===== shared 2/3 + 1/3 layout ===== */
+.split-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.split-main,
+.split-sidebar,
+.car-main-column,
+.car-sidebar-column {
+  min-width: 0;
+}
+
+.split-sidebar,
+.car-sidebar-column {
+  display: flex;
+  align-self: stretch;
+}
+
+.sidebar-panel,
+.filter-panel {
+  padding: 1.2rem;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar-panel h2,
+.sidebar-panel h3,
+.filter-panel h2,
+.filter-panel h3 {
+  margin-bottom: 0.6rem;
+}
+
+.sidebar-panel p,
+.sidebar-panel li,
+.filter-panel p,
+.filter-panel li {
+  color: var(--text-soft);
+}
+
+.sidebar-panel ul,
+.filter-panel ul {
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
+}
+
+/* ===== filter form ===== */
+.filter-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.filter-form label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--text-main);
+}
+
+.filter-form input,
+.filter-form select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.72rem 0.85rem;
+  border: 1px solid rgba(88, 111, 124, 0.22);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--text-main);
+  font: inherit;
+}
+
+.filter-form input:focus,
+.filter-form select:focus {
+  outline: none;
+  border-color: var(--bronze-soft);
+  box-shadow: 0 0 0 4px rgba(167, 134, 99, 0.12);
+}
+
+.filter-group {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.filter-group-title {
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.1rem;
+}
+
+.filter-option {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+  column-gap: 0.7rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid rgba(88, 111, 124, 0.16);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  transition:
+    border-color var(--transition),
+    background-color var(--transition);
+}
+
+.filter-option:hover {
+  border-color: rgba(139, 107, 74, 0.22);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.filter-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--charcoal-blue);
+  box-shadow: none;
+  align-self: center;
+}
+
+.filter-option span {
+  display: block;
+  line-height: 1.2;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.filter-help {
+  margin-top: -0.2rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.filter-actions {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.2rem;
+}
+
+/* ===== Home page ===== */
+.home-main-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.home-feature-panel .inline-actions {
+  margin-top: 1rem;
+}
+
+.home-callout-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.home-callout-card {
+  background: linear-gradient(180deg, var(--panel-2), var(--panel-3));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+/* ===== Account page ===== */
+.account-main-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.account-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+/* ===== Cars page ===== */
+.car-browser-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
 .car-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
   align-items: stretch;
 }
 
@@ -68,6 +258,7 @@
   display: block;
   color: inherit;
   text-decoration: none;
+  height: 100%;
 }
 
 .car-card-link:hover {
@@ -77,18 +268,23 @@
 
 .car-card {
   height: 100%;
+  min-height: 100%;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .car-card-link:hover .car-card,
 .car-card-link:focus-visible .car-card {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
-  border-color: rgba(139, 107, 74, 0.28);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 24px rgba(16, 27, 34, 0.14);
+  border-color: rgba(139, 107, 74, 0.22);
 }
 
 .car-card h2 {
   color: var(--text-main);
+  margin-bottom: 0.55rem;
 }
 
 .car-card p {
@@ -97,6 +293,26 @@
 
 .car-card .project-status {
   width: fit-content;
+}
+
+.car-card .car-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-bottom: 0.6rem;
+  color: var(--text-soft);
+  font-size: 0.96rem;
+}
+
+.car-card .car-description {
+  margin-bottom: 0;
+  flex-grow: 1;
+}
+
+.car-card .car-card-footer {
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--charcoal-blue);
 }
 
 .car-list a,
@@ -143,17 +359,17 @@
   width: 100%;
   display: block;
   border-radius: 14px;
-  height: auto;
   object-fit: cover;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
 }
 
 .car-thumbnail {
-  height: 220px;
+  height: 230px;
   margin-bottom: 1rem;
 }
 
+/* ===== General cards ===== */
 .project-status {
   display: inline-block;
   margin: 0 0 0.75rem;
@@ -239,4 +455,13 @@
 .error-message ul {
   margin: 0;
   padding-left: 1.2rem;
+}
+
+.button,
+.button:visited,
+.button-secondary,
+.button-secondary:visited,
+.button-danger,
+.button-danger:visited {
+  color: #ffffff;
 }

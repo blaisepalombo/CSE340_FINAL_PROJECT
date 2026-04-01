@@ -72,13 +72,38 @@ function validateCarForm(formData) {
   return errors;
 }
 
+function toArray(value) {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
 export async function buildCarsPage(req, res, next) {
   try {
-    const cars = await getAllCars();
+    const categories = await getAllCategories();
+
+    const filterValues = {
+      category: toArray(req.query.category),
+      availability: toArray(req.query.availability),
+      search: req.query.search || "",
+      sort: req.query.sort || "year_desc"
+    };
+
+    const filters = {
+      categoryIds: filterValues.category
+        .map((value) => Number(value))
+        .filter((value) => !Number.isNaN(value)),
+      availabilityStatuses: filterValues.availability.filter(Boolean),
+      search: filterValues.search.trim(),
+      sort: filterValues.sort.trim()
+    };
+
+    const cars = await getAllCars(filters);
 
     res.render("cars/index", {
       title: "Browse Vintage Cars",
-      cars
+      cars,
+      categories,
+      filterValues
     });
   } catch (error) {
     next(error);
