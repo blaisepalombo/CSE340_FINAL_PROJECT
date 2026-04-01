@@ -12,28 +12,59 @@
       <nav class="site-nav">
         <a class="logo" href="/">Vintage Car Hub</a>
 
-        <div class="nav-links">
-          <a href="/">Home</a>
-          <a href="/cars">Cars</a>
-
-          <% if (loggedIn) { %>
+        <% if (loggedIn && user && user.role_name === "admin") { %>
+          <div class="nav-links nav-links-admin">
+            <a href="/">Home</a>
+            <a href="/cars">Cars</a>
             <a href="/account">Account</a>
             <a href="/projects">My Projects</a>
-            <% if (user && (user.role_name === "admin" || user.role_name === "moderator")) { %>
-              <a href="/projects/manage">Manage Projects</a>
-              <a href="/comments/manage">Manage Comments</a>
-            <% } %>
-            <% if (user && user.role_name === "admin") { %>
-              <a href="/cars/manage">Manage Cars</a>
-              <a href="/categories/manage">Manage Categories</a>
-              <a href="/users/manage">Manage Users</a>
-            <% } %>
+
+            <div class="nav-dropdown">
+              <button class="nav-dropdown-toggle" type="button">
+                Management
+                <span class="nav-caret">▾</span>
+              </button>
+              <div class="nav-dropdown-menu">
+                <a href="/cars/manage">Manage Cars</a>
+                <a href="/categories/manage">Manage Categories</a>
+                <a href="/users/manage">Manage Users</a>
+              </div>
+            </div>
+
+            <div class="nav-dropdown">
+              <button class="nav-dropdown-toggle" type="button">
+                Workflow
+                <span class="nav-caret">▾</span>
+              </button>
+              <div class="nav-dropdown-menu">
+                <a href="/projects/manage">Manage Projects</a>
+                <a href="/comments/manage">Manage Comments</a>
+              </div>
+            </div>
+
             <a href="/logout">Logout</a>
-          <% } else { %>
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
-          <% } %>
-        </div>
+          </div>
+        <% } else { %>
+          <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/cars">Cars</a>
+
+            <% if (loggedIn) { %>
+              <a href="/account">Account</a>
+              <a href="/projects">My Projects</a>
+
+              <% if (user && (user.role_name === "admin" || user.role_name === "moderator")) { %>
+                <a href="/projects/manage">Manage Projects</a>
+                <a href="/comments/manage">Manage Comments</a>
+              <% } %>
+
+              <a href="/logout">Logout</a>
+            <% } else { %>
+              <a href="/login">Login</a>
+              <a href="/register">Register</a>
+            <% } %>
+          </div>
+        <% } %>
       </nav>
     </div>
   </header>

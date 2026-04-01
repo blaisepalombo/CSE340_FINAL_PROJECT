@@ -1,25 +1,41 @@
 <%- include("../partials/header", { title: title }) %>
 
 <section class="page-section">
-  <h1>Browse Vintage Cars</h1>
+  <div class="section-header">
+    <div>
+      <h1>Browse Vintage Cars</h1>
+      <p>Explore featured classics, restoration candidates, and iconic vintage builds.</p>
+    </div>
+  </div>
 
-  <% if (cars.length === 0) { %>
+  <% if (!cars || cars.length === 0) { %>
     <p>No cars found.</p>
   <% } else { %>
-    <ul class="car-list">
+    <div class="project-grid car-grid">
       <% cars.forEach(car => { %>
-        <li>
-          <h2>
-            <a href="/cars/<%= car.car_id %>">
-              <%= car.year %> <%= car.make %> <%= car.model %>
-            </a>
-          </h2>
-          <p><strong>Category:</strong> <%= car.category_name %></p>
-          <p><strong>Price:</strong> $<%= Number(car.price).toLocaleString() %></p>
-          <p><%= car.description %></p>
-        </li>
+        <a class="car-card-link" href="/cars/<%= car.car_id %>">
+          <article class="project-card car-card">
+            <% if (car.primary_image_url) { %>
+              <img
+                src="<%= car.primary_image_url %>"
+                alt="<%= car.primary_image_alt_text || `${car.year} ${car.make} ${car.model}` %>"
+                class="car-thumbnail"
+              >
+            <% } %>
+
+            <p class="project-status">
+              <%= car.availability_status %>
+            </p>
+
+            <h2><%= car.year %> <%= car.make %> <%= car.model %></h2>
+
+            <p><strong>Category:</strong> <%= car.category_name || "Uncategorized" %></p>
+            <p><strong>Price:</strong> $<%= Number(car.price).toLocaleString() %></p>
+            <p><%= car.description %></p>
+          </article>
+        </a>
       <% }) %>
-    </ul>
+    </div>
   <% } %>
 </section>
 
