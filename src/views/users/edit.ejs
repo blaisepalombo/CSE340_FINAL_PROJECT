@@ -1,0 +1,44 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section wide-form-section">
+  <h1>Edit User Role</h1>
+  <p>Update the role for this account.</p>
+
+  <% if (errors && errors.length > 0) { %>
+    <div class="message error-message">
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="dashboard-card" style="margin-bottom: 1rem;">
+    <p><strong>Name:</strong> <%= accountUser.first_name %> <%= accountUser.last_name %></p>
+    <p><strong>Email:</strong> <%= accountUser.email %></p>
+    <p><strong>Current Role:</strong> <%= accountUser.role_name %></p>
+  </div>
+
+  <form action="/users/<%= accountUser.user_id %>/edit" method="post" class="auth-form">
+    <label for="role_id">Role</label>
+    <select id="role_id" name="role_id" required>
+      <option value="">Select a role</option>
+      <% roles.forEach(role => { %>
+        <option
+          value="<%= role.role_id %>"
+          <%= Number(formData.role_id) === role.role_id ? "selected" : "" %>
+        >
+          <%= role.role_name %>
+        </option>
+      <% }) %>
+    </select>
+
+    <div class="inline-actions">
+      <button type="submit" class="button">Save Role</button>
+      <a href="/users/manage" class="button button-secondary">Cancel</a>
+    </div>
+  </form>
+</section>
+
+<%- include("../partials/footer") %>

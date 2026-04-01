@@ -1,0 +1,42 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section">
+  <div class="section-header">
+    <div>
+      <h1>Manage Users</h1>
+      <p>Admins can review user accounts, update roles, and delete users when needed.</p>
+    </div>
+  </div>
+
+  <% if (!users || users.length === 0) { %>
+    <p>No users found.</p>
+  <% } else { %>
+    <div class="project-grid">
+      <% users.forEach(accountUser => { %>
+        <article class="project-card">
+          <h2><%= accountUser.first_name %> <%= accountUser.last_name %></h2>
+          <p><strong>Email:</strong> <%= accountUser.email %></p>
+          <p><strong>Role:</strong> <%= accountUser.role_name %></p>
+          <p><strong>Created:</strong> <%= new Date(accountUser.created_at).toLocaleString() %></p>
+
+          <div class="inline-actions">
+            <a class="button button-secondary" href="/users/<%= accountUser.user_id %>/edit">Edit Role</a>
+
+            <% if (user && user.user_id !== accountUser.user_id) { %>
+              <form
+                action="/users/<%= accountUser.user_id %>/delete"
+                method="post"
+                class="inline-form"
+                onsubmit="return confirm('Delete this user account? This will also remove related records tied by cascade.');"
+              >
+                <button type="submit" class="button button-danger">Delete User</button>
+              </form>
+            <% } %>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>

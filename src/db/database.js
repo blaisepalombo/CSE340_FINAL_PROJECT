@@ -12,11 +12,10 @@ const useSSL =
 
 const pool = new Pool({
   connectionString: process.env.DB_URL,
-  ssl: useSSL
-    ? {
-        rejectUnauthorized: false
-      }
-    : false
+  ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : false,
+  max: 2, // VERY IMPORTANT (keep under 3)
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000
 });
 
 export async function closePool() {
