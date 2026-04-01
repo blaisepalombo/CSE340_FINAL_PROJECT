@@ -23,6 +23,10 @@
               <a href="/projects/manage">Manage Projects</a>
               <a href="/comments/manage">Manage Comments</a>
             <% } %>
+            <% if (user && user.role_name === "admin") { %>
+              <a href="/cars/manage">Manage Cars</a>
+              <a href="/categories/manage">Manage Categories</a>
+            <% } %>
             <a href="/logout">Logout</a>
           <% } else { %>
             <a href="/login">Login</a>

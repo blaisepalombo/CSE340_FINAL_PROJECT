@@ -1,0 +1,76 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section wide-form-section">
+  <h1>Add Car</h1>
+  <p>Create a new vehicle listing for the vintage car showcase.</p>
+
+  <% if (errors && errors.length > 0) { %>
+    <div class="message error-message">
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="/cars/new" method="post" class="auth-form">
+    <label for="category_id">Category</label>
+    <select id="category_id" name="category_id" required>
+      <option value="">Select a category</option>
+      <% categories.forEach(category => { %>
+        <option
+          value="<%= category.category_id %>"
+          <%= Number(formData.category_id) === category.category_id ? "selected" : "" %>
+        >
+          <%= category.category_name %>
+        </option>
+      <% }) %>
+    </select>
+
+    <label for="title">Title</label>
+    <input id="title" name="title" type="text" required value="<%= formData.title %>">
+
+    <label for="make">Make</label>
+    <input id="make" name="make" type="text" required value="<%= formData.make %>">
+
+    <label for="model">Model</label>
+    <input id="model" name="model" type="text" required value="<%= formData.model %>">
+
+    <label for="year">Year</label>
+    <input id="year" name="year" type="number" min="1886" max="2100" required value="<%= formData.year %>">
+
+    <label for="price">Price</label>
+    <input id="price" name="price" type="number" min="0" step="0.01" required value="<%= formData.price %>">
+
+    <label for="availability_status">Availability Status</label>
+    <select id="availability_status" name="availability_status">
+      <option value="available" <%= formData.availability_status === "available" ? "selected" : "" %>>Available</option>
+      <option value="reserved" <%= formData.availability_status === "reserved" ? "selected" : "" %>>Reserved</option>
+      <option value="sold" <%= formData.availability_status === "sold" ? "selected" : "" %>>Sold</option>
+      <option value="restoration" <%= formData.availability_status === "restoration" ? "selected" : "" %>>Restoration</option>
+    </select>
+
+    <label for="featured">Featured</label>
+    <select id="featured" name="featured">
+      <option value="false" <%= !formData.featured ? "selected" : "" %>>No</option>
+      <option value="true" <%= formData.featured ? "selected" : "" %>>Yes</option>
+    </select>
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="6" required><%= formData.description %></textarea>
+
+    <label for="image_url">Primary Image URL</label>
+    <input id="image_url" name="image_url" type="text" value="<%= formData.image_url %>" placeholder="/images/example.jpg">
+
+    <label for="image_alt_text">Primary Image Alt Text</label>
+    <input id="image_alt_text" name="image_alt_text" type="text" value="<%= formData.image_alt_text %>">
+
+    <div class="inline-actions">
+      <button type="submit" class="button">Create Car</button>
+      <a href="/cars/manage" class="button button-secondary">Cancel</a>
+    </div>
+  </form>
+</section>
+
+<%- include("../partials/footer") %>

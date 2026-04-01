@@ -1,0 +1,42 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section wide-form-section">
+  <h1>Edit Category</h1>
+  <p>Update this category's name and description.</p>
+
+  <% if (errors && errors.length > 0) { %>
+    <div class="message error-message">
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="/categories/<%= category.category_id %>/edit" method="post" class="auth-form">
+    <label for="category_name">Category Name</label>
+    <input
+      id="category_name"
+      name="category_name"
+      type="text"
+      required
+      value="<%= formData.category_name %>"
+    >
+
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      name="description"
+      rows="6"
+      required
+    ><%= formData.description %></textarea>
+
+    <div class="inline-actions">
+      <button type="submit" class="button">Save Changes</button>
+      <a href="/categories/manage" class="button button-secondary">Cancel</a>
+    </div>
+  </form>
+</section>
+
+<%- include("../partials/footer") %>

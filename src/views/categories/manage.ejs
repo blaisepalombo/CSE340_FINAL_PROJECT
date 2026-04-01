@@ -1,0 +1,39 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section">
+  <div class="section-header">
+    <div>
+      <h1>Manage Categories</h1>
+      <p>Admins can add, edit, and remove vehicle categories.</p>
+    </div>
+    <a class="button" href="/categories/new">Add Category</a>
+  </div>
+
+  <% if (!categories || categories.length === 0) { %>
+    <p>No categories found.</p>
+  <% } else { %>
+    <div class="project-grid">
+      <% categories.forEach(category => { %>
+        <article class="project-card">
+          <h2><%= category.category_name %></h2>
+          <p><strong>Cars in category:</strong> <%= category.car_count %></p>
+          <p><%= category.description %></p>
+
+          <div class="inline-actions">
+            <a class="button button-secondary" href="/categories/<%= category.category_id %>/edit">Edit</a>
+            <form
+              action="/categories/<%= category.category_id %>/delete"
+              method="post"
+              class="inline-form"
+              onsubmit="return confirm('Delete this category? Cars in this category may become uncategorized.');"
+            >
+              <button type="submit" class="button button-danger">Delete</button>
+            </form>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>

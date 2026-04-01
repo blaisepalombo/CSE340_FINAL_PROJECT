@@ -9,6 +9,7 @@ import carsRoutes from "./src/routes/carsRoutes.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import projectsRoutes from "./src/routes/projectsRoutes.js";
 import commentsRoutes from "./src/routes/commentsRoutes.js";
+import categoriesRoutes from "./src/routes/categoriesRoutes.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 import pool, { closePool } from "./src/db/database.js";
 import { setNavLocals } from "./src/middleware/authMiddleware.js";
@@ -64,6 +65,7 @@ app.use("/", carsRoutes);
 app.use("/", authRoutes);
 app.use("/", projectsRoutes);
 app.use("/", commentsRoutes);
+app.use("/", categoriesRoutes);
 
 app.use((req, res) => {
   res.status(404).render("404", {

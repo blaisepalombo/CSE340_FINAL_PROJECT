@@ -36,7 +36,7 @@
       <% recentProjects.forEach(project => { %>
         <article class="project-card">
           <p class="project-status project-status-<%= project.current_status.replace(/[_\s]+/g, '-') %>">
-            <%= project.current_status.replace(/_/g, ' ') %>
+            <%= project.current_status.replace(/_/g, " ") %>
           </p>
           <h3><%= project.title %></h3>
           <p><strong>Car:</strong> <%= project.year %> <%= project.make %> <%= project.model %></p>
@@ -55,6 +55,10 @@
     <div class="inline-actions">
       <a class="button" href="/projects/manage">Manage Projects</a>
       <a class="button button-secondary" href="/comments/manage">Manage Comments</a>
+      <% if (account.role_name === "admin") { %>
+        <a class="button" href="/cars/manage">Manage Cars</a>
+        <a class="button button-secondary" href="/categories/manage">Manage Categories</a>
+      <% } %>
     </div>
   </section>
 <% } %>
