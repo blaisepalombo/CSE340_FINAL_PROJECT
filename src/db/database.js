@@ -5,11 +5,14 @@ dotenv.config();
 
 const { Pool } = pg;
 
-const isProduction = process.env.NODE_ENV === "production";
+const useSSL =
+  process.env.DB_SSL === "true" ||
+  process.env.NODE_ENV === "production" ||
+  (process.env.DB_URL && process.env.DB_URL.includes("render.com"));
 
 const pool = new Pool({
   connectionString: process.env.DB_URL,
-  ssl: isProduction
+  ssl: useSSL
     ? {
         rejectUnauthorized: false
       }

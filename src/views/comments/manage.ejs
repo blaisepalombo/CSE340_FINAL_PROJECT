@@ -1,0 +1,34 @@
+<%- include("../partials/header", { title: title }) %>
+
+<section class="page-section">
+  <h1>Manage Comments</h1>
+  <p>Admins and moderators can review and remove comments from any vehicle page.</p>
+
+  <% if (!comments || comments.length === 0) { %>
+    <p>No comments have been posted yet.</p>
+  <% } else { %>
+    <div class="comments-list">
+      <% comments.forEach(comment => { %>
+        <article class="comment-card">
+          <div class="comment-meta">
+            <p><strong>User:</strong> <%= comment.first_name %> <%= comment.last_name %> (<%= comment.email %>)</p>
+            <p><strong>Car:</strong> <a class="text-link" href="/cars/<%= comment.car_id %>"><%= comment.year %> <%= comment.make %> <%= comment.model %></a></p>
+            <p><strong>Posted:</strong> <%= new Date(comment.created_at).toLocaleString() %></p>
+          </div>
+
+          <p class="comment-text"><%= comment.comment_text %></p>
+
+          <form
+            action="/comments/<%= comment.comment_id %>/moderate-delete"
+            method="post"
+            onsubmit="return confirm('Delete this comment?');"
+          >
+            <button type="submit" class="button button-danger">Delete Comment</button>
+          </form>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../partials/footer") %>

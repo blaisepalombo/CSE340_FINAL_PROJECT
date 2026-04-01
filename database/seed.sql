@@ -11,7 +11,6 @@ ON CONFLICT DO NOTHING;
 -- =========================
 -- USERS
 -- Password for all seeded users: P@$$w0rd!
--- bcrypt hash for P@$$w0rd!
 -- =========================
 INSERT INTO users (first_name, last_name, email, password_hash, role_id)
 VALUES

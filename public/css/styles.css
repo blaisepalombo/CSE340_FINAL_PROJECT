@@ -213,10 +213,7 @@ h3 {
   background: #e5f5e8;
 }
 
-.project-status-in-progress {
-  background: #fff2d9;
-}
-
+.project-status-in-progress,
 .project-status-in_progress {
   background: #fff2d9;
 }

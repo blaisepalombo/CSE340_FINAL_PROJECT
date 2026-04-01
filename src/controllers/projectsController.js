@@ -11,7 +11,13 @@ import {
   updateProjectStatus
 } from "../models/projectsModel.js";
 
-const allowedStatuses = ["submitted", "approved", "in_progress", "completed", "rejected"];
+const allowedStatuses = [
+  "submitted",
+  "approved",
+  "in_progress",
+  "completed",
+  "rejected"
+];
 
 function normalizeProjectForm(body = {}) {
   return {
@@ -43,6 +49,16 @@ function validateProjectForm(formData) {
   }
 
   return errors;
+}
+
+export async function getAccountDashboardData(userId) {
+  const totalProjects = await countProjectsByUserId(userId);
+  const projects = await getProjectsByUserId(userId);
+
+  return {
+    totalProjects,
+    projects
+  };
 }
 
 export async function buildProjectsPage(req, res, next) {
@@ -126,7 +142,9 @@ export async function buildEditProjectPage(req, res, next) {
     }
 
     if (project.user_id !== req.session.user.user_id) {
-      return res.status(403).send("You can only edit your own projects.");
+      return res
+        .status(403)
+        .send("You can only edit your own projects.");
     }
 
     const history = await getProjectStatusHistory(projectId);
@@ -139,8 +157,12 @@ export async function buildEditProjectPage(req, res, next) {
       formData: {
         title: project.title,
         description: project.description,
-        started_on: project.started_on ? project.started_on.toISOString().split("T")[0] : "",
-        target_completion: project.target_completion ? project.target_completion.toISOString().split("T")[0] : ""
+        started_on: project.started_on
+          ? new Date(project.started_on).toISOString().split("T")[0]
+          : "",
+        target_completion: project.target_completion
+          ? new Date(project.target_completion).toISOString().split("T")[0]
+          : ""
       }
     });
   } catch (error) {
@@ -158,7 +180,9 @@ export async function updateProjectSubmission(req, res, next) {
     }
 
     if (project.user_id !== req.session.user.user_id) {
-      return res.status(403).send("You can only edit your own projects.");
+      return res
+        .status(403)
+        .send("You can only edit your own projects.");
     }
 
     const formData = {
@@ -184,6 +208,7 @@ export async function updateProjectSubmission(req, res, next) {
 
     if (errors.length > 0) {
       const history = await getProjectStatusHistory(projectId);
+
       return res.status(400).render("projects/edit", {
         title: "Edit Restoration Project",
         errors,
@@ -209,10 +234,15 @@ export async function updateProjectSubmission(req, res, next) {
 export async function deleteProjectSubmission(req, res, next) {
   try {
     const projectId = Number(req.params.projectId);
-    const deletedProject = await deleteProject(projectId, req.session.user.user_id);
+    const deletedProject = await deleteProject(
+      projectId,
+      req.session.user.user_id
+    );
 
     if (!deletedProject) {
-      return res.status(404).send("Project not found or you do not have permission to delete it.");
+      return res
+        .status(404)
+        .send("Project not found or you do not have permission to delete it.");
     }
 
     res.redirect("/projects");
@@ -256,16 +286,4 @@ export async function updateProjectStatusSubmission(req, res, next) {
   } catch (error) {
     next(error);
   }
-}
-
-export async function getAccountDashboardData(userId) {
-  const [projects, totalProjects] = await Promise.all([
-    getProjectsByUserId(userId),
-    countProjectsByUserId(userId)
-  ]);
-
-  return {
-    projects,
-    totalProjects
-  };
 }

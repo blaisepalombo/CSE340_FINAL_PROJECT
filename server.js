@@ -74,7 +74,7 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 const server = app.listen(PORT, () => {
-  console.log(`\nServer running`);
+  console.log("\nServer running");
   console.log(`Local: http://localhost:${PORT}`);
 });
 
