@@ -57,9 +57,6 @@ Use the following accounts to test the application:
 * [mod@test.com](mailto:mod@test.com)
 * [user@test.com](mailto:user@test.com)
 
-Password for all accounts:
-P@$$w0rd!
-
 ---
 
 ## Tech Stack
